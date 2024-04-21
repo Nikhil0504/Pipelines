@@ -1,5 +1,6 @@
 import logging
-from .log_handlers import setup_file_handler, setup_console_handler
+
+from .log_handlers import setup_console_handler, setup_file_handler
 
 # Define VERBOSE log level
 VERBOSE = 15

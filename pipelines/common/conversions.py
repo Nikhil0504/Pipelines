@@ -1,5 +1,6 @@
-import numpy as np
 import astropy.units as u
+import numpy as np
+
 
 def flux_to_abmag(flux_densities, wavelengths):
     from astropy.constants import c

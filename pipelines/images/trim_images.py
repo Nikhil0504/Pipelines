@@ -1,5 +1,6 @@
-from ..logging.logger_config import setup_logger
 from astropy.wcs import WCS
+
+from ..logging.logger_config import setup_logger
 
 # Assuming the logger has been set up globally or passed as an argument
 logger = setup_logger()

@@ -3,6 +3,7 @@ import os
 from datetime import datetime
 from logging.handlers import TimedRotatingFileHandler
 
+
 def setup_file_handler(level):
     log_directory = "../logs"
     os.makedirs(log_directory, exist_ok=True)

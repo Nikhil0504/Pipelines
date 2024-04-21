@@ -1,5 +1,6 @@
 import re
 
+
 def parse_ds9_reg_file(filename):
     # Regular expression to match region lines (simplified for circle, box, and ellipse)
     reg_exp = r"(circle|box|ellipse)\(([^,]+),([^,]+),([^)]+)\)"

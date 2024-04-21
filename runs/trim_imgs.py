@@ -1,7 +1,10 @@
 import argparse
+
 from astropy.io import fits
-from pipelines.images import trim_images
+
 from pipelines.common import utils
+from pipelines.images import trim_images
+
 
 def main(args):
     path = args.path

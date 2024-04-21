@@ -1,8 +1,8 @@
-from ..logging.logger_config import setup_logger
-
 import numpy as np
 import numpy.ma as ma
 from astropy.stats import sigma_clip
+
+from ..logging.logger_config import setup_logger
 
 logger = setup_logger()
 
