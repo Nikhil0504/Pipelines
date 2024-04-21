@@ -235,3 +235,16 @@ def display_psf(hdulist_or_filename, ext=0, vmin=1e-7, vmax=1e-1,
         else:
             return ax
 
+
+def save_psf_plots(hdu, path, filt, ext=None):
+    from matplotlib.backends.backend_pdf import PdfPages
+
+    with PdfPages(path) as pdf:
+        if ext is None:
+            ext = ['DET_SAMP', 'OVERSAMP', 'ROTATED_OVERSAMP', 'ROTATED_DET_SAMP']
+        for e in ext:
+            display_psf(hdu, ext=e, ax=plt.gca(), title=f'{filt} PSF {e}', return_ax=False)
+            pdf.savefig()
+            plt.close()
+    
+    _log.info(f"PSF plots saved to {path}")

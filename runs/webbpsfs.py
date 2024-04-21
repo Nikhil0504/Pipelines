@@ -1,10 +1,10 @@
 import argparse
 
-import matplotlib.pyplot as plt
 from astropy.io import fits
 
 from pipelines.common import utils
 from pipelines.PSFs import makewebbpsf
+from pipelines.plotting.psf_plots import save_psf_plots
 
 # test for now
 # fp = '/Users/nikhilgaruda/Documents/Astronomy_Research/Data/plckg165/Images/anton/30mas/mosaic_plckg165_nircam_f200w_30mas_20230403_drz.fits'
@@ -44,6 +44,10 @@ def main(args):
 
     full_output_path = utils.generate_filename(output_filename, 'fits', output_directory)
     psf_rot.writeto(full_output_path, overwrite=True)
+
+    full_output_path_pdf = utils.generate_filename(output_filename, 'pdf', output_directory)
+    save_psf_plots(psf_rot, path=full_output_path_pdf, filt=filter)
+
     print(f"File saved as {full_output_path}")
 
 
