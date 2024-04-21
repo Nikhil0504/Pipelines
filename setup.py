@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='Pipelines',
-    version='0.1.0',
+    version='0.2.0',
     author='Nikhil Garuda',
     description='Astronomical data processing pipelines',
     packages=find_packages(),
