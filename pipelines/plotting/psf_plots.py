@@ -150,6 +150,9 @@ def display_psf(hdulist_or_filename, ext=0, vmin=1e-7, vmax=1e-1,
     elif normalize.lower() == 'total':
         _log.debug("Displaying image normalized to PSF total = 1")
         im /= im.sum()
+    
+    # make 0s NaNs to avoid autoscaling issues
+    im[im == 0] = np.nan
 
     if scale == 'linear':
         norm = matplotlib.colors.Normalize(vmin=vmin, vmax=vmax)
