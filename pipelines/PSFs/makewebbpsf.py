@@ -3,7 +3,7 @@ from astropy import time
 from astropy.io import fits
 
 from pipelines.common.jwst_utils import get_pixscl
-from pipelines.images.rotate import imrotate
+from pipelines.images.img_utils import imrotate
 
 from ..logging.logger_config import setup_logger
 
