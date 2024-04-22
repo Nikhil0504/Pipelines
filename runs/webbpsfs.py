@@ -6,17 +6,6 @@ from pipelines.common import utils
 from pipelines.PSFs import makewebbpsf
 from pipelines.plotting.psf_plots import save_psf_plots
 
-# test for now
-# fp = '/Users/nikhilgaruda/Documents/Astronomy_Research/Data/plckg165/Images/anton/30mas/mosaic_plckg165_nircam_f200w_30mas_20230403_drz.fits'
-# filter = 'F200W'
-
-# hdu = fits.open(fp)
-
-# psf = makewebbpsf.generate_webbpsf(filter=filter, img_hdu=hdu, ext=0,
-#                                    pixscl=None, oversample=3, fov_pixels=None,
-#                                    fov_arcsec=None)
-
-# psf_rot = makewebbpsf.rotate_webbpsf(psf, img_hdu=hdu, ext=0, pa=None)
 
 def main(args):
     fp = args.imgpath
@@ -44,6 +33,11 @@ def main(args):
 
     full_output_path = utils.generate_filename(output_filename, 'fits', output_directory)
     psf_rot.writeto(full_output_path, overwrite=True)
+
+    # save only rotated PSF
+    i = fits.ImageHDU(psf_rot['ROTATED_DET_SAMP'].data, header=psf_rot['ROTATED_DET_SAMP'].header)
+    full_output_path_rot = utils.generate_filename(output_filename + '_rot', 'fits', output_directory)
+    i.writeto(full_output_path_rot, overwrite=True)
 
     full_output_path_pdf = utils.generate_filename(output_filename, 'pdf', output_directory)
     save_psf_plots(psf_rot, path=full_output_path_pdf, filt=filter)
