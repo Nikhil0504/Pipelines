@@ -17,9 +17,10 @@ def setup_logger(name='CosmologyPipeline', level=VERBOSE):
     logger = logging.getLogger(name)
     logger.setLevel(level)
     
-    # Add handlers
-    logger.addHandler(setup_file_handler(level))
-    logger.addHandler(setup_console_handler())
+    if not logger.handlers:
+        # Add handlers
+        logger.addHandler(setup_file_handler(level))
+        logger.addHandler(setup_console_handler())
 
     # Prevent duplicate messages
     logger.propagate = False
