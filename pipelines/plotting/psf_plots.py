@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import poppy
 from astropy.io import fits
+from astropy.visualization import ImageNormalize, LinearStretch, PercentileInterval
 
 from ..logging.logger_config import setup_logger
 
@@ -251,3 +252,51 @@ def save_psf_plots(hdu, path, filt, ext=None):
             plt.close()
     
     _log.info(f"PSF plots saved to {path}")
+
+
+def display_kernel(kernel, title=None, ax=None, return_ax=False, interpolation=None, save_path=None, save=False):
+    """Display nicely a PSF kernel
+
+    This is extensively configurable. In addition to making an attractive display, for
+    interactive usage this function provides a live display of the pixel value at a
+    given (x,y) as you mouse around the image.
+
+    Parameters
+    ----------
+    kernel : numpy.ndarray
+        2D array containing the kernel to display.
+    title : string, optional
+        Set the plot title explicitly.
+    ax : matplotlib.Axes instance
+        Axes to display into.
+    return_ax : bool
+        Return the axes to the caller for later use? (Default: False)
+        When True, this function returns a matplotlib.Axes instance.
+    interpolation : string
+        Interpolation technique for PSF image. Default is None,
+        meaning it is taken from matplotlib's `image.interpolation`
+        rcParam.
+    """
+    if ax is None:
+        ax = plt.gca()
+
+    # make 0s NaNs to avoid autoscaling issues
+    kernel[kernel == 0] = np.nan
+    norm = ImageNormalize(
+        kernel, interval=PercentileInterval(98), stretch=LinearStretch()
+        )
+
+    ax.imshow(kernel, cmap='viridis', interpolation=interpolation, origin='lower', norm=norm)
+    ax.set_title(title)
+    ax.set_xlabel('X [pixels]')
+    ax.set_ylabel('Y [pixels]')
+
+    if return_ax:
+        return ax
+    
+    if save:
+        try:
+            plt.savefig(save_path)
+            _log.info(f"Kernel plot saved to {save_path}")
+        except Exception as e:
+            _log.error(f"Error saving kernel plot: {e}")
