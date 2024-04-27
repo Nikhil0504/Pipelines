@@ -21,4 +21,6 @@ def imrotate(image, angle, interp_order=1, reshape=False):
 
     """
     return rotate(image, -1.0 * angle,
-                  order=interp_order, reshape=False, prefilter=False)
+                  order=interp_order, reshape=reshape, prefilter=False)
+
+
