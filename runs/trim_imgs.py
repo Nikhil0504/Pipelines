@@ -54,7 +54,19 @@ def main(args: Args) -> None:
     img, _, head = trim_images.trim_image(hdu, img_ext, hdr_ext, x_range, y_range)
     full_output_path = utils.generate_filename(args.output_filename, 'fits', args.output_directory)
 
-    fits.writeto(full_output_path, img, head, overwrite=True, output_verify='fix')
+    # Preserve the extension name if img_ext is a string (name of the extension)
+    if isinstance(img_ext, str):
+        ext_name = img_ext
+    else:
+        ext_name = head.get('EXTNAME', 'UNKNOWN')
+
+    # Create a new HDU with the trimmed image and original header
+    new_hdu = fits.ImageHDU(data=img, header=head, name=ext_name)
+
+    # Write the new HDU to the output file
+    new_hdul = fits.HDUList([new_hdu])
+    new_hdul.writeto(full_output_path, overwrite=True, output_verify='fix')
+
     print(f"File saved as {full_output_path}")
 
 if __name__ == "__main__":

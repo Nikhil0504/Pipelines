@@ -26,6 +26,9 @@ def trim_image(hdu, ext_img, ext_header, x_range, y_range):
         fitting_header.update(header)
 
         trimmed_img = img[y_range[0] : y_range[1], x_range[0] : x_range[1]]
+
+        # add a comment to the header to indicate the image has been trimmed
+        fitting_header.add_comment(f"Image has been trimmed with range: {x_range[0]}:{x_range[1]}, {y_range[0]}:{y_range[1]}")
         
         # Log successful trimming
         logger.info("Image successfully trimmed and WCS updated.")
