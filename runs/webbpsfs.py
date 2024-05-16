@@ -66,7 +66,9 @@ def main(args: Args) -> None:
     psf_rot.writeto(full_output_path, overwrite=True)
 
     # save only rotated PSF
-    i = fits.ImageHDU(psf_rot['ROTATED_DET_SAMP'].data, header=psf_rot['ROTATED_DET_SAMP'].header)
+    i = fits.PrimaryHDU(psf_rot['ROTATED_DET_SAMP'].data, header=psf_rot['ROTATED_DET_SAMP'].header)
+    i.header['EXTNAME'] = 'ROTATED_DET_SAMP'
+    
     full_output_path_rot = utils.generate_filename(output_filename + '_rot', 'fits', output_directory)
     i.writeto(full_output_path_rot, overwrite=True)
 

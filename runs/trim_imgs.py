@@ -61,7 +61,8 @@ def main(args: Args) -> None:
         ext_name = head.get('EXTNAME', 'UNKNOWN')
 
     # Create a new HDU with the trimmed image and original header
-    new_hdu = fits.ImageHDU(data=img, header=head, name=ext_name)
+    new_hdu = fits.PrimaryHDU(data=img, header=head)
+    new_hdu.header['EXTNAME'] = ext_name
 
     # Write the new HDU to the output file
     new_hdul = fits.HDUList([new_hdu])
