@@ -1,6 +1,7 @@
-from scipy.ndimage import rotate, median_filter
+from scipy.ndimage import rotate
 import numpy as np
 import numpy.ma as ma
+from scipy import ndimage as nd
 
 
 def imrotate(image, angle, interp_order=1, reshape=False):
@@ -64,6 +65,6 @@ def median_filter(image, window_size: int, mask_above, exclude_adjacent=True):
     
     Process replicated from https://www.aanda.org/articles/aa/full_html/2016/06/aa27513-15/aa27513-15.html#S8
     """
-    median_filtered = median_filter(image, size=window_size)
+    median_filtered = nd.median_filter(image, size=window_size)
     mask = create_mask(image, mask_above, exclude_adjacent)
     return image - ma.filled(ma.masked_array(median_filtered, mask), 0)
