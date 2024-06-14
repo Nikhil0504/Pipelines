@@ -46,3 +46,22 @@ def abmag_to_jansky(m_ab, m_ab_err=None):
         return janskys, janskys_err
 
     return janskys
+
+def mjy_sr_to_ab_mag(flux_mjy_sr, pixar_sr):
+    """
+    Convert flux density from MJy/sr to AB Magnitude.
+
+    Parameters:
+    flux_mjy_sr (float): Flux density in MJy/sr
+    pixar_sr (float): Pixel area in steradians
+
+    Returns:
+    float: AB Magnitude
+    """
+    # Convert MJy/sr to Jy for the given pixel area
+    flux_jy_pixel = flux_mjy_sr * pixar_sr * 1e6
+
+    # Calculate AB magnitude
+    ab_mag = -2.5 * np.log10(flux_jy_pixel) + 8.9
+
+    return ab_mag
