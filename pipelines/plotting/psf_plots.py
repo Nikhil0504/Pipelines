@@ -2,7 +2,6 @@ import astropy.units as u
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
-import poppy
 from astropy.io import fits
 from astropy.visualization import ImageNormalize, LinearStretch, PercentileInterval
 
@@ -177,6 +176,7 @@ def display_psf(hdulist_or_filename, ext=0, vmin=1e-7, vmax=1e-1,
     extent = [-halffov_x, halffov_x, -halffov_y, halffov_y]
 
     if cmap is None:
+        import poppy
         cmap = getattr(matplotlib.cm, poppy.conf.cmap_sequential)
     # update and get (or create) image axes
     ax = imshow_with_mouseover(
