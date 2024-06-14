@@ -68,3 +68,34 @@ def median_filter(image, window_size: int, mask_above, exclude_adjacent=True):
     median_filtered = nd.median_filter(image, size=window_size)
     mask = create_mask(image, mask_above, exclude_adjacent)
     return image - ma.filled(ma.masked_array(median_filtered, mask), 0)
+
+def flatten_array(data, value=0):
+    """
+    Flatten the given 2D numpy array by removing zeros and shifting non-zero elements upwards in each column.
+
+    Parameters
+    ----------
+    data : np.ndarray
+        A 2D numpy array with shape (m, n).
+    
+    value : int, optional
+        The value to replace zeros with. Default is 0.
+    
+    Returns
+    -------
+    np.ndarray
+        A new 2D numpy array with the same shape as the input, where each column is flattened.
+    """
+    result = np.zeros_like(data)
+
+    # Process each column
+    for col in range(data.shape[1]):
+        # Get the non-zero elements in the column
+        non_zero_elements = data[:, col][data[:, col] != value]
+        # Place the non-zero elements at the top of the column in the result array
+        result[:len(non_zero_elements), col] = non_zero_elements
+
+    # remove the empty rows
+    result = result[~np.all(result == 0, axis=1)]
+
+    return result
