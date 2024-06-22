@@ -8,7 +8,7 @@ from ..logging.logger_config import setup_logger
 logger = setup_logger()
 
 
-def get_flux_profiles(filters, img_dict, apertures, axis=0):
+def get_flux_profiles(filters, img_dict, apertures, axis=0, crop=slice(None, None)):
     """
     Gets the flux profiles of the data for a given set of filters and apertures.
 
@@ -54,6 +54,7 @@ def get_flux_profiles(filters, img_dict, apertures, axis=0):
 
             cutout_data = mask.multiply(data)
             # append to the data dictionary
-            data_prof[filt].append(np.sum(cutout_data, axis=axis))
+            profile = np.sum(cutout_data, axis=axis)[crop]
+            data_prof[filt].append(profile)
 
     return data_prof
