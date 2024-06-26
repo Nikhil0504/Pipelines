@@ -34,7 +34,7 @@ def plot_profiles(num_epochs, profiles_imgs, profiles_data, norm):
     for i in range(num_epochs):
         ax = fig.add_subplot(gs[i])
 
-        ax.imshow(profiles_imgs[i], origin='lower', cmap='inferno', norm=norm)
+        ax.imshow(profiles_imgs[i], origin='lower', cmap='inferno', norm=norm[i])
 
         ax.set_xticklabels([])
         ax.set_yticklabels([])
@@ -68,7 +68,7 @@ def plot_profiles(num_epochs, profiles_imgs, profiles_data, norm):
     ax.set_xlabel('Pixels')
 
     ax.set_xlim(-1, len(profiles_data[0]))
-    ax.set_ylim(27, 31)
+    ax.set_ylim(25.5, 30.5)
 
     # flip the ax axis for ab mag
     ax.invert_yaxis()

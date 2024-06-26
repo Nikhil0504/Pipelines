@@ -1,7 +1,6 @@
 from astropy.io import fits
 from astropy.convolution import convolve_fft
 from photutils.psf import create_matching_kernel, SplitCosineBellWindow
-import pyfftw
 
 def create_kernels(target_psf, source_psf, alpha=0.5, beta=0.0):
     """
@@ -27,7 +26,7 @@ def create_kernels(target_psf, source_psf, alpha=0.5, beta=0.0):
     kernel = create_matching_kernel(target_psf=target_psf, source_psf=source_psf, window=window)
     return kernel
 
-def convolve_image(image, kernel, multithread=True):
+def convolve_image(image, kernel, multithread=False):
     """
     Convolve an image with a kernel.
 
@@ -45,6 +44,8 @@ def convolve_image(image, kernel, multithread=True):
     """
 
     if multithread:
+        import pyfftw
+
         pyfftw.config.NUM_THREADS = 6
         pyfftw.config.PLANNER_EFFORT = 'FFTW_MEASURE'
 

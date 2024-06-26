@@ -23,7 +23,7 @@ def flux_to_abmag(flux_densities, wavelengths):
     # Calculate AB magnitudes
     ab_magnitudes = [-2.5 * np.log10(f_nu) - 48.60 for f_nu in flux_densities_hz]
     
-    return ab_magnitudes
+    return np.array(ab_magnitudes)
 
 
 def abmag_to_jansky(m_ab, m_ab_err=None):
