@@ -4,11 +4,12 @@ from photutils.aperture import SkyRectangularAperture
 import numpy as np
 
 from ..logging.logger_config import setup_logger
+from ..images.img_utils import flatten_array
 
 logger = setup_logger()
 
 
-def get_flux_profiles(filters, img_dict, apertures, axis=0, crop=slice(None, None)):
+def get_flux_profiles(filters, img_dict, apertures, axis=0, crop=slice(None, None), crop2=slice(None, None)):
     """
     Gets the flux profiles of the data for a given set of filters and apertures.
 
@@ -53,8 +54,13 @@ def get_flux_profiles(filters, img_dict, apertures, axis=0, crop=slice(None, Non
             mask = ap_pix.to_mask(method='exact')
 
             cutout_data = mask.multiply(data)
+            cutout_data = np.rot90(cutout_data, k=1)
+            cutout_data = flatten_array(cutout_data)
+            cutout_data = cutout_data[crop, crop2]
+            cutout_data = np.clip(cutout_data, 0, None)
+
             # append to the data dictionary
-            profile = np.sum(cutout_data, axis=axis)[crop]
+            profile = np.average(cutout_data, axis=axis)
             data_prof[filt].append(profile)
 
     return data_prof

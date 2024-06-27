@@ -32,7 +32,7 @@ def parse_ds9_reg_file(filename):
     
     return regions
 
-def get_apertures(reg_file, frame='fk5'):
+def get_apertures(reg_file, frame='fk5') -> list[SkyRectangularAperture]:
     regions = parse_ds9_reg_file(reg_file)
 
     sky_coords = [SkyCoord(ra=float(region['ra'])*u.degree, dec=float(region['dec'])*u.degree, frame=frame) for region in regions]
