@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 
-def plot_profiles(num_epochs, profiles_imgs, profiles_data, norm):
+def plot_profiles(num_epochs, profiles_imgs, profiles_data, norm, labels):
     """
     Plot the profiles of the images and the data profiles in a single figure.
     
@@ -29,7 +29,7 @@ def plot_profiles(num_epochs, profiles_imgs, profiles_data, norm):
 
     # Create a figure with a specific size
     fig = plt.figure(dpi=150, figsize=(10, 5))
-    gs =  gridspec.GridSpec(num_epochs + 1, 1, height_ratios=[0.2] * num_epochs + [1], hspace=0.05)
+    gs =  gridspec.GridSpec(num_epochs + 1, 1, height_ratios=[0.25] * num_epochs + [1], hspace=0.05)
 
     for i in range(num_epochs):
         ax = fig.add_subplot(gs[i])
@@ -45,7 +45,7 @@ def plot_profiles(num_epochs, profiles_imgs, profiles_data, norm):
     ax = fig.add_subplot(gs[-1])
 
     for num, prof_data in enumerate(profiles_data):
-        ax.plot(prof_data, label=f'epoch{num + 1}')
+        ax.plot(prof_data, label=f'{labels[num]}')
 
 
     # Center the zero in the middle of the x-axis
@@ -68,7 +68,7 @@ def plot_profiles(num_epochs, profiles_imgs, profiles_data, norm):
     ax.set_xlabel('Pixels')
 
     ax.set_xlim(-1, len(profiles_data[0]))
-    ax.set_ylim(25.5, 30.5)
+    ax.set_ylim(28, 31)
 
     # flip the ax axis for ab mag
     ax.invert_yaxis()

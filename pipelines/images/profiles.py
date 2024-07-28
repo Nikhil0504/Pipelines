@@ -9,7 +9,7 @@ from ..images.img_utils import flatten_array
 logger = setup_logger()
 
 
-def get_flux_profiles(filters, img_dict, apertures, axis=0, crop=slice(None, None), crop2=slice(None, None)):
+def get_flux_profiles(filters, img_dict, apertures, axis=0, img_ext=0, header_ext=0, crop=slice(None, None), crop2=slice(None, None)):
     """
     Gets the flux profiles of the data for a given set of filters and apertures.
 
@@ -42,8 +42,8 @@ def get_flux_profiles(filters, img_dict, apertures, axis=0, crop=slice(None, Non
         img_path = img_dict[filt]
         hdul = fits.open(img_path)
 
-        data = hdul[0].data
-        wcs = WCS(hdul[0].header)
+        data = hdul[img_ext].data
+        wcs = WCS(hdul[header_ext].header)
 
         for aperture in apertures:
             if not isinstance(aperture, SkyRectangularAperture):
@@ -60,7 +60,7 @@ def get_flux_profiles(filters, img_dict, apertures, axis=0, crop=slice(None, Non
             cutout_data = np.clip(cutout_data, 0, None)
 
             # append to the data dictionary
-            profile = np.average(cutout_data, axis=axis)
+            profile = np.sum(cutout_data, axis=axis)
             data_prof[filt].append(profile)
 
     return data_prof
