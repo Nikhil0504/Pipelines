@@ -1,4 +1,4 @@
-import webbpsf
+import stpsf as webbpsf
 from astropy import time
 from astropy.io import fits
 
@@ -80,16 +80,16 @@ def rotate_webbpsf(psf, img_hdu=None, ext=None, pa=None):
     try:
         angle = pa if pa else img_hdu[ext].header['PA_APER']
         logger.verbose(f"Rotating WebbPSF by PA={angle}")
-        rotated_psf_oversamp = imrotate(psf['OVERSAMP'].data, angle, reshape=False)
-        rotated_psf_detsamp = imrotate(psf['DET_SAMP'].data, angle, reshape=False)
+        rotated_psf_overdist = imrotate(psf['OVERDIST'].data, angle, reshape=False)
+        rotated_psf_detdist = imrotate(psf['DET_DIST'].data, angle, reshape=False)
 
         # add these two files to the hdu list
-        psf.append(fits.ImageHDU(data=rotated_psf_oversamp, name='ROTATED_OVERSAMP', header=psf['OVERSAMP'].header.copy()))
-        psf.append(fits.ImageHDU(data=rotated_psf_detsamp, name='ROTATED_DET_SAMP', header=psf['DET_SAMP'].header.copy()))
+        psf.append(fits.ImageHDU(data=rotated_psf_overdist, name='ROTATED_OVERDIST', header=psf['OVERDIST'].header.copy()))
+        psf.append(fits.ImageHDU(data=rotated_psf_detdist, name='ROTATED_DET_DIST', header=psf['DET_DIST'].header.copy()))
 
         # copy the header from the input image HDU to the rotated PSF HDU and add a comment about the rotation
-        psf['ROTATED_OVERSAMP'].header['COMMENT'] = f"Rotated by PA={angle} degrees"
-        psf['ROTATED_DET_SAMP'].header['COMMENT'] = f"Rotated by PA={angle} degrees"
+        psf['ROTATED_OVERDIST'].header['COMMENT'] = f"Rotated by PA={angle} degrees"
+        psf['ROTATED_DET_DIST'].header['COMMENT'] = f"Rotated by PA={angle} degrees"
 
         return psf
     except Exception as e:

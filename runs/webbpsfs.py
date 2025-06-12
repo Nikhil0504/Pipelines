@@ -34,7 +34,7 @@ def parse_arguments() -> Args:
     parser.add_argument('--pa', type=float, default=None, help='Position angle for the WebbPSF; default is None')
     parser.add_argument('--ovsam', type=int, default=3, help='Oversampling factor for the WebbPSF; default is 3')
     parser.add_argument('--fov_pix', type=int, default=None, help='Field of view in pixels for the WebbPSF; default is None')
-    parser.add_argument('--fov_as', type=float, default=None, help='Field of view in arcseconds for the WebbPSF; default is None')
+    parser.add_argument('--fov_as', type=float, default=2.0, help='Field of view in arcseconds for the WebbPSF; default is 2.0')
 
     parsed_args = parser.parse_args()
     args_dict = vars(parsed_args)
@@ -66,8 +66,8 @@ def main(args: Args) -> None:
     psf_rot.writeto(full_output_path, overwrite=True)
 
     # save only rotated PSF
-    i = fits.PrimaryHDU(psf_rot['ROTATED_DET_SAMP'].data, header=psf_rot['ROTATED_DET_SAMP'].header)
-    i.header['EXTNAME'] = 'ROTATED_DET_SAMP'
+    i = fits.PrimaryHDU(psf_rot['ROTATED_DET_DIST'].data, header=psf_rot['ROTATED_DET_DIST'].header)
+    i.header['EXTNAME'] = 'ROTATED_DET_DIST'
     
     full_output_path_rot = utils.generate_filename(output_filename + '_rot', 'fits', output_directory)
     i.writeto(full_output_path_rot, overwrite=True)
